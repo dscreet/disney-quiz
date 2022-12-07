@@ -4,6 +4,9 @@ The player has to guess which film the displayed disney character is from.
 
 Created using the ERN stack alongside the [Disney API](https://disneyapi.dev/).
 
+![image](https://user-images.githubusercontent.com/29370740/206271194-1d5ff846-8bc3-4fc0-b94f-7639cd491130.png)
+
+
 ## Game
 
 - Each game has 10 rounds.
