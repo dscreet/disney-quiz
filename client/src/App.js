@@ -14,18 +14,21 @@ const App = () => {
     if (dataRetrieved.current) return;
     dataRetrieved.current = true;
     retrieveCharacters();
-    console.log(data)
   });
 
   /* fetches 4 random disney characters for the round */
-  const retrieveCharacters = () => {
-    fetch('api')
-      .then(res => res.json())
-      .then(data => setData(data.disneyChars));
+  const retrieveCharacters = async () => {
+    try {
+      const res = await fetch('api');
+      const data = await res.json();
+      setData(data.disneyChars);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /* submits the user's answer and increments score if correct */
-  const submitAnswer = (chosen) => {
+  const submitAnswer = async (chosen) => {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -34,11 +37,13 @@ const App = () => {
       body: JSON.stringify(chosen)
     };
     // post req user's submission that returns boolean stating if answer is correct
-    fetch('submit', requestOptions)
-      .then(res => res.json())
-      .then(data => {
-        if (data.correctAns) setScore(x => x + 1);
-      });
+    try {
+      const res = await fetch('submit', requestOptions);
+      const data = await res.json();
+      if (data.correctAns) setScore(x => x + 1);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /* when user chooses an answer...
@@ -46,7 +51,7 @@ const App = () => {
     - 4 new characters are chosen for the next round
     - moves onto next round
   */
-  const checkAnswer = async (chosen) => {
+  const checkAnswer = (chosen) => {
     submitAnswer(chosen);
     retrieveCharacters();
     setRound(x => x + 1);
